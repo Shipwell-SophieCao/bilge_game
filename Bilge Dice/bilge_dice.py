@@ -23,6 +23,8 @@ https://shipwell.atlassian.net/browse/INT-560
 ## Global Stuff ##
 
 import random
+import colorama
+from colorama import Fore, Style
 
 # 6 sided die values
 
@@ -30,20 +32,20 @@ faces = [1, 2, 3, 4, 5, 6]
 
 # strings to print dice graphics
 
-s ="+-------+"
-m1="| o   o |"
-m2="| o     |"
-m3="|   o   |"
-m4="|     o |"
-m5="|       |"
+s = "+-------+"
+m1 = "| o   o |"
+m2 = "| o     |"
+m3 = "|   o   |"
+m4 = "|     o |"
+m5 = "|       |"
 
 dice_display = [
-	[s, m5, m3, m5, s],
-	[s, m2, m5, m4, s],
-	[s, m2, m3, m4, s],
-	[s, m1, m5, m1, s],
-	[s, m1, m3, m1, s],
-	[s, m1, m1, m1, s]
+	[m5, m3, m5],
+	[m2, m5, m4],
+	[m2, m3, m4],
+	[m1, m5, m1],
+	[m1, m3, m1],
+	[m1, m1, m1]
 ]
 
 
@@ -56,8 +58,15 @@ class Roll:
 	def __init__(self, value):
 		self.value = value
 
+	# Directly print(Roll) for temp rolls (default black)
 	def __str__(self):
 		return '\n'.join(dice_display[self.value-1])
+		
+
+	# Use print_hand() method to display hand values in blue
+	def print_hand(self):
+		print(Fore.BLUE + '\n'.join(dice_display[self.value-1]))
+		print(Style.RESET_ALL)
 
 
 class Die:
@@ -94,6 +103,12 @@ class Hand:
 		for roll in self.rolls:
 			print(Roll(roll))
 		return ''
+
+	def display_hand(self):
+		if len(self.rolls) == 0:
+			print('[empty]')
+		else:
+			ndice(*self.rolls)
 
 	def qualified(self):
 		if 1 in self.rolls and 4 in self.rolls:
@@ -149,13 +164,30 @@ class Bank:
 
 ## Functions ##
 
+def die(i):
+    return [s, *dice_display[i-1], s]
+
+def join_row(*rows):
+	'''
+	Used for printing multiple dice horizontally vs. vertically
+	'''
+	return ['   '.join(r) for r in zip(*rows)]
+
+def ndice(*ns):
+	'''
+	Used to print any number of dice horizontally
+	'''
+	for line in join_row(*map(die, ns)):
+		print(line)
+
+
 def pick_ante(bank1, bank2):
 	'''
 	Ask players to pick an ante for the round. You can only bet 10 or 50, and no more than what you have in the bank. 
 	'''
 	while True:
 		try:
-			ante = int(input("Pick the ante for this round - 10 or 50 NP? "))
+			ante = int(input(">> Pick the ante for this round - 10 or 50 NP? "))
 		except ValueError:
 			print("Bet must be an integer value!")
 		else: 
@@ -176,7 +208,7 @@ def ask_keep(dice_list):
 	Ask player to list the die/dice they want to keep. Any capitalization and spacing should work. Repeats are ignored. 
 	'''
 	while True:
-		kept_string = input("Which dice would you like to keep? (Enter comma separated - e.g. a,b,c) ")
+		kept_string = input(">> Which dice would you like to keep? (Enter comma separated - e.g. a,b,c) ")
 		kept = [s.strip().upper() for s in kept_string.split(',')]
 		if len(kept) == 0:
 			print("You must select at least 1 die to keep! ")
@@ -194,7 +226,7 @@ def player_turn(player, hand):
 
 	# Declare player n's turn
 
-	print('\n' + player.name + "'s turn! ")
+	print('\n' + player.name + "'s turn! \n")
 
 	# Create 6 dice named A-F
 
@@ -207,21 +239,27 @@ def player_turn(player, hand):
 	# Roll and keep values until player's hand has 6 values
 
 	while len(hand.rolls) < 6:
-		input("Press Enter to roll. ")
+		input(">> Press Enter to roll. ")
 		temp_rolls = {}
 
 		# Show rolled dice with letter names
 
+		dice_header = ''
 		for die in dice_dict.keys():
-			print(die)
+			dice_header += ('    ' + die + '       ')
 			temp_roll = dice_dict[die].roll()
 			temp_rolls[die] = temp_roll
-			print(Roll(temp_roll))
+			#print(Roll(temp_roll))
+		print(dice_header)
+		ndice(*temp_rolls.values())	
+
+
 
 		# Show player's hand
 
 		print('Your hand: ')
-		print(hand)
+		# print(hand)
+		hand.display_hand()
 
 		# Ask player which dice to keep
 
@@ -239,7 +277,8 @@ def player_turn(player, hand):
 		# Show updated hand and score
 
 		hand.calc_score()
-		print(hand)
+		# print(hand)
+		hand.display_hand()
 		print(player.name + "'s score: " + str(hand.score))
 
 
@@ -253,20 +292,20 @@ playing = True
 
 print('\nWelcome to Bilge Dice!\n')
 print('Rules: ')
-print('>> 2 human players start with 100 neopoints (NPs). \n>> Select the ante for the round - 10 or 50 NP. \n>> Player 1 goes first. ')
-print('>> Each player rolls 6 dice. \n>> Select die values to keep in your hand. You have to keep at least 1 die per roll.\n>> Reroll the remaining dice until all 6 dice are in hand.')
-print('>> Your hand has to contain a 1 and 4 to qualify. \n>> Without the qualifiers your score is 0. ')
-print('>> If you qualify, the sum of the other 4 dice in your hand is your score (max 24). ')
-print('>> Player with the highest score wins. \n>> The ante is added to your NP total if you win, deducted if you lose, and nothing happens if you tie. ')
-print('>> You can play again if neither player is bankrupt :D \n')
+print('~ 2 human players start with 100 neopoints (NPs). \n~ Select the ante for the round - 10 or 50 NP. \n~ Player 1 goes first. ')
+print('~ Each player rolls 6 dice. \n~ Select die values to keep in your hand. You have to keep at least 1 die per roll.\n~ Reroll the remaining dice until all 6 dice are in hand.')
+print('~ Your hand has to contain a 1 and 4 to qualify. \n~ Without the qualifiers your score is 0. ')
+print('~ If you qualify, the sum of the other 4 dice in your hand is your score (max 24). ')
+print('~ Player with the highest score wins. \n~ The ante is added to your NP total if you win, deducted if you lose, and nothing happens if you tie. ')
+print('~ You can play again if neither player is bankrupt :D \n')
 
 # Initiate players, banks
 
-player1 = Player(input("Player 1 - what's your name? "))
+player1 = Player(input(">> Player 1 - what's your name? "))
 bank1 = Bank(player1)
 
 while True:
-	player2 = Player(input("Player 2 - what's your name? "))
+	player2 = Player(input(">> Player 2 - what's your name? "))
 	if player2.name == player1.name:
 		print("You cannot use the same name as Player 1!")
 	else:
@@ -349,7 +388,7 @@ while playing == True:
 	# Ask to play again
 
 	while True:
-		play = input("Would you like to play again? (y/n) ")
+		play = input(">> Would you like to play again? (y/n) ")
 		if play.lower() == 'y':
 			break
 		elif play.lower() == 'n':
