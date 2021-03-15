@@ -6,11 +6,11 @@ Rules at: http://www.jellyneo.net/?go=bilge_dice
 https://shipwell.atlassian.net/browse/INT-560
 
 - 2 human players start with 100 neopoints (NPs).
-- Select game ante - 10 or 50 NP.
+- Select the ante for the round - 10 or 50 NP.
 - Randomly selected player goes first.
-- Each player rolls 6 dice, 
+- Each player rolls 6 dice to start. 
 	- Select die values to keep in your hand. You have to keep at least 1 die per roll. 
-	- Reroll the remaining dice until all 6 dice are in hand. 
+	- Reroll the remaining dice and select ones to keep until all 6 dice are in hand. 
 - Your hand has to contain a 1 and 4 to qualify. 
 	- Without the qualifiers your score is 0.
 - If you qualify, the sum of the other 4 dice in your hand is your score (max 24).
@@ -292,8 +292,8 @@ playing = True
 
 print('\nWelcome to Bilge Dice!\n')
 print('Rules: ')
-print('~ 2 human players start with 100 neopoints (NPs). \n~ Select the ante for the round - 10 or 50 NP. \n~ Player 1 goes first. ')
-print('~ Each player rolls 6 dice. \n~ Select die values to keep in your hand. You have to keep at least 1 die per roll.\n~ Reroll the remaining dice until all 6 dice are in hand.')
+print('~ 2 human players start with 100 neopoints (NPs). \n~ Select the ante for the round - 10 or 50 NP. \n~ Randomly selected player goes first. ')
+print('~ Each player rolls 6 dice to start. \n~ Select die values to keep in your hand. You have to keep at least 1 die per roll.\n~ Reroll the remaining dice and select ones to keep until all 6 dice are in hand.')
 print('~ Your hand has to contain a 1 and 4 to qualify. \n~ Without the qualifiers your score is 0. ')
 print('~ If you qualify, the sum of the other 4 dice in your hand is your score (max 24). ')
 print('~ Player with the highest score wins. \n~ The ante is added to your NP total if you win, deducted if you lose, and nothing happens if you tie. ')
