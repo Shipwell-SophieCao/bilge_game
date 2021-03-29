@@ -23,8 +23,6 @@ https://shipwell.atlassian.net/browse/INT-560
 ## Global Stuff ##
 
 import random
-import colorama
-from colorama import Fore, Style
 
 # 6 sided die values
 
