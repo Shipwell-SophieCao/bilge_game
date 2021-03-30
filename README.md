@@ -19,7 +19,7 @@ import random
 python bilge_dice.py
 ```
 
-- Game rules
+- Game rules:
 
 	- 2 human players start with 100 neopoints (NPs).
 	- Select the ante for the round - 10 or 50 NP.
