@@ -1,23 +1,33 @@
-# bilge_game
+# Welcome to Bilge Dice! 
 
-Welcome to Bilge Dice! Inspired by a [long lost Neopets game](http://www.jellyneo.net/?go=bilge_dice)
+_Inspired by a [long lost Neopets game](http://www.jellyneo.net/?go=bilge_dice)_
 
-Getting Started: 
-	- Clone project
-	'''
+## Getting Started: 
+
+- Clone project
+
+	'''bash
 	git clone https://github.com/Shipwell-SophieCao/bilge_game.git "Bilge Dice"
 	'''
-	- Import packages
-	'''
+
+- Import packages
+
+	'''python
 	import random
 	'''
-	- Run from the command line
-	'''
+
+- Run from the command line
+
+	'''bash
 	python bilge_dice.py
 	'''
-	- Game rules
 
-3/29/21 git remote update: 
-	'''
+- Game rules
+
+## Updates:
+
+- 3/29/21 git remote update: 
+
+	'''bash
 	git remote rename python-learning bilge_game
 	'''
