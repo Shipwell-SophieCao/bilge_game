@@ -143,24 +143,7 @@ class Bank:
 		return self.player.name + ' has ' + str(self.total) + ' NP. '
 
 
-## Test Classes ##
-
-# die_a = Die()
-# die_b = Die()
-# die_c = Die()
-
-# test_hand = Hand('test')
-# test_hand.keep_roll(die_a.roll())
-# test_hand.keep_roll(die_b.roll())
-# test_hand.keep_roll(die_c.roll())
-# print(test_hand)
-
-# print(test_hand.qualified())
-# test_hand.calc_score()
-# print(test_hand.score)
-
-
-## Functions ##
+## Dice Display Functions ##
 
 def die(i):
     return [s, *dice_display[i-1], s]
@@ -178,6 +161,27 @@ def ndice(*ns):
 	for line in join_row(*map(die, ns)):
 		print(line)
 
+
+## Test Classes ##
+
+# die_a = Die()
+# die_b = Die()
+# die_c = Die()
+# die_d = Die()
+
+# test_hand = Hand('test')
+# test_hand.keep_roll(die_a.roll())
+# test_hand.keep_roll(die_b.roll())
+# test_hand.keep_roll(die_c.roll())
+# test_hand.keep_roll(die_d.roll())
+# test_hand.display_hand()
+
+# print(test_hand.qualified())
+# test_hand.calc_score()
+# print(test_hand.score)
+
+
+## Game Functions ##
 
 def pick_ante(bank1, bank2):
 	'''
@@ -275,7 +279,6 @@ def player_turn(player, hand):
 		# Show updated hand and score
 
 		hand.calc_score()
-		# print(hand)
 		hand.display_hand()
 		print(player.name + "'s score: " + str(hand.score))
 
