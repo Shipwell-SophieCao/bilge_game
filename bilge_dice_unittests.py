@@ -1,4 +1,6 @@
 import unittest
+import io
+import sys
 import bilge_dice
 
 
@@ -61,7 +63,32 @@ class TestHand(unittest.TestCase):
 
 		self.assertEqual(len(result.rolls), 3)
 
-	# Not sure how to check display_hand
+	# Check that an empty hand is displayed as "[empty]"
+	def test_hand_display_hand_empty(self):
+		name = 'test player'
+		player = bilge_dice.Player(name)
+		hand = bilge_dice.Hand(player)
+		result = io.StringIO()
+		sys.stdout = result
+		hand.display_hand()
+		result = result.getvalue().rstrip()
+		self.assertEqual(result, '[empty]')
+
+
+	# Check that the number of pips displayed matches the value of a non-empty hand
+	def test_hand_display_hand_not_empty(self):
+		name = 'test player'
+		player = bilge_dice.Player(name)
+		hand = bilge_dice.Hand(player)
+		die_a = bilge_dice.Die()
+		die_b = bilge_dice.Die()
+		hand.keep_roll(die_a.roll())
+		hand.keep_roll(die_a.roll())
+		result = io.StringIO()
+		sys.stdout = result
+		hand.display_hand()
+		result = result.getvalue().rstrip()
+		self.assertEqual(result.count('o'), sum(hand.rolls))
 
 
 	# Check that Hand.qualified() returns boolean False after 1 roll
@@ -73,6 +100,7 @@ class TestHand(unittest.TestCase):
 		hand.keep_roll(die_a.roll())
 		result = hand.qualified()
 		self.assertEqual(result, False)
+
 
 	# Check that Hand.calc_score() returns 0 after 1 roll, and varied behavior after 3 rolls based on qualification
 	def test_hand_calc_score(self):
@@ -144,17 +172,6 @@ class TestBank(unittest.TestCase):
 		self.assertEqual(initial_total, result.total)
 		self.assertEqual(result.ante, 0)
 
-
-## Test Functions
-
-# Not sure how to test display functions like join_row(*rows) or ndice(*ns)
-
-
-# class TestPickAnteFn(unittest.TestCase):
-
-# 	#
-# 	def test_pick_ante(self):
-# 		pass
 
 
 
