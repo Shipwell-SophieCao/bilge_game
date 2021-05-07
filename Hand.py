@@ -1,5 +1,5 @@
-import bilge_dice_display_funcs
-from bilge_dice_Roll import Roll
+import display_funcs
+from Roll import Roll
 
 class Hand:
 
@@ -20,7 +20,7 @@ class Hand:
 		if len(self.rolls) == 0:
 			print('[empty]')
 		else:
-			bilge_dice_display_funcs.ndice(*self.rolls)
+			display_funcs.ndice(*self.rolls)
 
 	def qualified(self):
 		if 1 in self.rolls and 4 in self.rolls:

@@ -1,5 +1,5 @@
 import random 
-from bilge_dice_Roll import Roll
+from Roll import Roll
 
 # 6 sided die values
 
